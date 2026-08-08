@@ -4,7 +4,7 @@ let isDown = false;
 let startX;
 let scrollleft;
 
-slider.addEventListener("mousedown", function(e) {
+slider.addEventListener("mousedown", (e) => {
 	isDown = true;
 	slider.classList.add("active");
 
@@ -12,17 +12,17 @@ slider.addEventListener("mousedown", function(e) {
     scrollLeft = slider.scrollLeft;
 });
 
-slider.addEventListener("mouseleave", function() {
+slider.addEventListener("mouseleave", () => {
     isDown = false;
     slider.classList.remove("active");
 });
 
-slider.addEventListener("mouseup", function() {
+slider.addEventListener("mouseup",() => {
     isDown = false;
     slider.classList.remove("active");
 });
 
-slider.addEventListener("mousemove", function(e) {
+slider.addEventListener("mousemove", (e) => {
     if (!isDown) return;
 
     e.preventDefault();
