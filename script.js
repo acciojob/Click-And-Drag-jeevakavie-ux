@@ -8,8 +8,7 @@ let offsetY = 0;
 cubes.forEach(function(cube) {
 
     cube.addEventListener("mousedown", function(e) {
-
-        selectedCube = cube;
+		selectedCube = cube;
 
         const cubeRect = cube.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
@@ -21,7 +20,6 @@ cubes.forEach(function(cube) {
         cube.style.zIndex = "10";
 
         function moveCube(e) {
-
             if (!selectedCube) return;
 
             let left = e.clientX - containerRect.left - offsetX;
@@ -46,5 +44,5 @@ cubes.forEach(function(cube) {
 
         document.addEventListener("mousemove", moveCube);
         document.addEventListener("mouseup", stopDrag);
-    });
+	});
 });
