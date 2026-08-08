@@ -1,1 +1,48 @@
-// Your code here.
+const container = document.querySelector(".container");
+const cubes = document.querySelectorAll(".cube");
+
+let selectedCube = null;
+let offsetX = 0;
+let offsetY = 0;
+
+cubes.forEach(function(cube) {
+
+    cube.addEventListener("mousedown", function(e) {
+        selectedCube = cube;
+
+        const cubeRect = cube.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        offsetX = e.clientX - cubeRect.left;
+        offsetY = e.clientY - cubeRect.top;
+
+        cube.style.position = "absolute";
+        cube.style.zIndex = "1000";
+
+        function moveCube(e) {
+            if (!selectedCube) return;
+
+            let left = e.clientX - containerRect.left - offsetX;
+            let top = e.clientY - containerRect.top - offsetY;
+
+            const maxLeft = container.clientWidth - cube.offsetWidth;
+            const maxTop = container.clientHeight - cube.offsetHeight;
+
+            left = Math.max(0, Math.min(left, maxLeft));
+            top = Math.max(0, Math.min(top, maxTop));
+
+            selectedCube.style.left = left + "px";
+            selectedCube.style.top = top + "px";
+        }
+
+        function stopDrag() {
+            selectedCube = null;
+            document.removeEventListener("mousemove", moveCube);
+            document.removeEventListener("mouseup", stopDrag);
+        }
+
+        document.addEventListener("mousemove", moveCube);
+        document.addEventListener("mouseup", stopDrag);
+    });
+
+});
