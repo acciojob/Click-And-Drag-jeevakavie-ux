@@ -1,48 +1,35 @@
-const container = document.querySelector(".container");
-const cubes = document.querySelectorAll(".cube");
+const slider = document.querrySelector(".items");
 
-let selectedCube = null;
-let offsetX = 0;
-let offsetY = 0;
+let isDown = false;
+let startX;
+let scrollleft;
 
-cubes.forEach(function(cube) {
+slider.addEventListener("mousedown", function(e) {
+	isDown = true;
+	slider.classList.add("active");
 
-    cube.addEventListener("mousedown", function(e) {
-        selectedCube = cube;
-
-        const cubeRect = cube.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-
-        offsetX = e.clientX - cubeRect.left;
-        offsetY = e.clientY - cubeRect.top;
-
-        cube.style.position = "absolute";
-        cube.style.zIndex = "1000";
-
-        function moveCube(e) {
-            if (!selectedCube) return;
-
-            let left = e.clientX - containerRect.left - offsetX;
-            let top = e.clientY - containerRect.top - offsetY;
-
-            const maxLeft = container.clientWidth - cube.offsetWidth;
-            const maxTop = container.clientHeight - cube.offsetHeight;
-
-            left = Math.max(0, Math.min(left, maxLeft));
-            top = Math.max(0, Math.min(top, maxTop));
-
-            selectedCube.style.left = left + "px";
-            selectedCube.style.top = top + "px";
-        }
-
-        function stopDrag() {
-            selectedCube = null;
-            document.removeEventListener("mousemove", moveCube);
-            document.removeEventListener("mouseup", stopDrag);
-        }
-
-        document.addEventListener("mousemove", moveCube);
-        document.addEventListener("mouseup", stopDrag);
-    });
-
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
 });
+
+slider.addEventListener("mouseleave", function() {
+    isDown = false;
+    slider.classList.remove("active");
+});
+
+slider.addEventListener("mouseup", function() {
+    isDown = false;
+    slider.classList.remove("active");
+});
+
+slider.addEventListener("mousemove", function(e) {
+    if (!isDown) return;
+
+    e.preventDefault();
+
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 3;
+
+    slider.scrollLeft = scrollLeft - walk;
+});	
+})
