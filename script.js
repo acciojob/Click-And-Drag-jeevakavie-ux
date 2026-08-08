@@ -25,8 +25,8 @@ cubes.forEach(function(cube) {
             let left = e.clientX - containerRect.left - offsetX;
             let top = e.clientY - containerRect.top - offsetY;
 
-            const maxLeft = container.clientWidth - cube.offsetWidth;
-            const maxTop = container.clientHeight - cube.offsetHeight;
+            const maxLeft = containerRect.Width - cubeReact.Width;
+            const maxTop = containerRect.Height - cubeReact.Height;
 
             left = Math.max(0, Math.min(left, maxLeft));
             top = Math.max(0, Math.min(top, maxTop));
