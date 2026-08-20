@@ -1,21 +1,22 @@
 const container = document.querySelector(".container");
-const items = document.querySelectorAll(".item");
+const cubes = document.querySelectorAll(".cube");
 
-items.forEach((item) => {
+cubes.forEach((cube) => {
     let isDragging = false;
     let offsetX = 0;
     let offsetY = 0;
 
-    item.addEventListener("mousedown", (e) => {
+    cube.addEventListener("mousedown", (e) => {
         isDragging = true;
 
-        const rect = item.getBoundingClientRect();
+        const rect = cube.getBoundingClientRect();
 
         offsetX = e.clientX - rect.left;
         offsetY = e.clientY - rect.top;
 
-        item.style.position = "absolute";
-        item.style.zIndex = "1000";
+        cube.style.position = "absolute";
+        cube.style.zIndex = "10";
+        cube.style.cursor = "grabbing";
     });
 
     document.addEventListener("mousemove", (e) => {
@@ -26,17 +27,18 @@ items.forEach((item) => {
         let left = e.clientX - containerRect.left - offsetX;
         let top = e.clientY - containerRect.top - offsetY;
 
-        const maxLeft = container.clientWidth - item.offsetWidth;
-        const maxTop = container.clientHeight - item.offsetHeight;
+        const maxLeft = container.clientWidth - cube.offsetWidth;
+        const maxTop = container.clientHeight - cube.offsetHeight;
 
         left = Math.max(0, Math.min(left, maxLeft));
         top = Math.max(0, Math.min(top, maxTop));
 
-        item.style.left = left + "px";
-        item.style.top = top + "px";
+        cube.style.left = left + "px";
+        cube.style.top = top + "px";
     });
 
-    item.addEventListener("mouseup", () => {
+    document.addEventListener("mouseup", () => {
         isDragging = false;
+        cube.style.cursor = "grab";
     });
 });
