@@ -1,48 +1,45 @@
-const container = document.querrySelector(".items");
-const cubes = document.querySelectorAll("item");
+const container = document.querySelector(".container");
+const cubes = document.querySelectorAll(".cube");
 
-let selectedCube = null;
-let offsetX = 0;
-let offsetY = 0;
+cubes.forEach((cube) => {
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
 
-cubes.forEach(function(cube) {
-
-    cube.addEventListener("mousedown", function(e) {
-		selectedCube = cube;
+    cube.addEventListener("mousedown", (e) => {
+        isDragging = true;
 
         const cubeRect = cube.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
 
         offsetX = e.clientX - cubeRect.left;
         offsetY = e.clientY - cubeRect.top;
 
         cube.style.position = "absolute";
-        cube.style.zIndex = "10";
+        cube.style.zIndex = "1000";
+    });
 
-        function moveCube(e) {
-            if (!selectedCube) return;
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
 
-            let left = e.clientX - containerRect.left - offsetX;
-            let top = e.clientY - containerRect.top - offsetY;
+        const containerRect = container.getBoundingClientRect();
+        const cubeRect = cube.getBoundingClientRect();
 
-            const maxLeft = containerRect.Width - cubeReact.Width;
-            const maxTop = containerRect.Height - cubeReact.Height;
+        let left = e.clientX - containerRect.left - offsetX;
+        let top = e.clientY - containerRect.top - offsetY;
 
-            left = Math.max(0, Math.min(left, maxLeft));
-            top = Math.max(0, Math.min(top, maxTop));
+        
+        const maxLeft = container.clientWidth - cube.offsetWidth;
+        const maxTop = container.clientHeight - cube.offsetHeight;
 
-            selectedCube.style.left = left + "px";
-            selectedCube.style.top = top + "px";
-        }
+        left = Math.max(0, Math.min(left, maxLeft));
+        top = Math.max(0, Math.min(top, maxTop));
 
-        function stopDrag() {
-            selectedCube = null;
+        cube.style.left = left + "px";
+        cube.style.top = top + "px";
+    });
 
-            document.removeEventListener("mousemove", moveCube);
-            document.removeEventListener("mouseup", stopDrag);
-        }
-
-        document.addEventListener("mousemove", moveCube);
-        document.addEventListener("mouseup", stopDrag);
-	});
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+    });
 });
+        
